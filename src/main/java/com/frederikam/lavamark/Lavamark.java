@@ -42,17 +42,16 @@ public class Lavamark {
             log.error("Benchmark ended due to exception!");
             throw new RuntimeException(e);
         }
+
+        System.exit(0);
     }
 
     private static void doLoop() throws InterruptedException {
-        AudioConsumer consumer = new AudioConsumer(players);
-        consumer.start();
-
         //noinspection InfiniteLoopStatement
         while (true) {
             spawnPlayers();
 
-            AudioConsumer.Results results = consumer.getResults();
+            AudioConsumer.Results results = AudioConsumer.getResults();
             log.info("Players: " + players.size() + ", Null frames: " + results.getLossPercentString());
 
             if(results.getEndReason() != AudioConsumer.EndReason.NONE) {

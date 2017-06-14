@@ -3,23 +3,22 @@ package com.frederikam.lavamark;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AudioConsumer extends Thread {
 
     private static final Logger log = LoggerFactory.getLogger(AudioConsumer.class);
 
-    private final CopyOnWriteArrayList<Player> players;
+    private final Player player;
     private final int INTERVAL = 20; // A frame is 20ms
 
-    private AtomicInteger served = new AtomicInteger();
-    private AtomicInteger missed = new AtomicInteger();
-    private EndReason endReason = EndReason.NONE;
-    private boolean running = true;
+    private static AtomicInteger served = new AtomicInteger();
+    private static AtomicInteger missed = new AtomicInteger();
+    private static EndReason endReason = EndReason.NONE;
+    private static boolean running = true;
 
-    AudioConsumer(CopyOnWriteArrayList<Player> players) {
-        this.players = players;
+    AudioConsumer(Player player) {
+        this.player = player;
     }
 
     @Override
@@ -30,33 +29,25 @@ public class AudioConsumer extends Thread {
         //noinspection InfiniteLoopStatement
         while (running) {
 
-            //long countStart = System.currentTimeMillis();
-
-            for (Player player :
-                    players) {
-                if (player.canProvide()) {
-                    served.incrementAndGet();
-                } else {
-                    missed.incrementAndGet();
-                }
+            if (player.canProvide()) {
+                served.incrementAndGet();
+            } else {
+                missed.incrementAndGet();
             }
 
             long targetTime = ((start / INTERVAL) + i + 1) * INTERVAL;
             long diff = targetTime - System.currentTimeMillis();
-            //log.info("Behind by " + (-diff) + "ms");
             i++;
 
-            if(diff < -500) {
+            if(diff < -5000) {
                 endReason = EndReason.CANT_KEEP_UP;
                 break;
             }
 
-            //log.info("Time taken: " + (System.currentTimeMillis() - countStart));
-
             synchronized (this) {
                 try {
                     if(diff > 0) {
-                        sleep(diff);
+                        sleep(diff/2);
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -65,7 +56,7 @@ public class AudioConsumer extends Thread {
         }
     }
 
-    Results getResults() {
+    static Results getResults() {
         int serv = served.getAndSet(0);
         int miss = missed.getAndSet(0);
 
@@ -77,7 +68,7 @@ public class AudioConsumer extends Thread {
         return new Results(serv, miss, endReason);
     }
 
-    public class Results {
+    public static class Results {
         int served;
         int missed;
         EndReason endReason;

@@ -16,6 +16,9 @@ public class Player extends AudioEventAdapter {
     Player() {
         player.addListener(this);
         player.playTrack(Lavamark.getTrack());
+
+        AudioConsumer consumer = new AudioConsumer(this);
+        consumer.start();
     }
 
     @Override

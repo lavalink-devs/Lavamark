@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50d4804f-c6aa-4ddd-bf4f-5770690918b5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/AudioConsumer.java" afterPath="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/AudioConsumer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Lavamark.java" afterPath="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Lavamark.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Player.java" afterPath="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Player.java" />
     </list>
@@ -41,8 +42,8 @@
       <file leaf-file-name="Lavamark.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Lavamark.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="55" column="54" lean-forward="false" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
+            <state relative-caret-position="373">
+              <caret line="45" column="22" lean-forward="false" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -74,8 +75,8 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="102">
+              <caret line="15" column="14" lean-forward="true" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -86,18 +87,18 @@
       <file leaf-file-name="AudioConsumer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/AudioConsumer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="45" column="14" lean-forward="false" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
+            <state relative-caret-position="187">
+              <caret line="41" column="27" lean-forward="false" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#691#692#0" expanded="true" />
-                <element signature="e#729#730#0" expanded="true" />
-                <element signature="e#2551#2552#0" expanded="true" />
-                <element signature="e#2588#2589#0" expanded="true" />
-                <element signature="e#2622#2623#0" expanded="true" />
-                <element signature="e#2659#2660#0" expanded="true" />
-                <element signature="e#2702#2703#0" expanded="true" />
-                <element signature="e#2742#2743#0" expanded="true" />
+                <element signature="e#623#624#0" expanded="true" />
+                <element signature="e#659#660#0" expanded="true" />
+                <element signature="e#2199#2200#0" expanded="true" />
+                <element signature="e#2236#2237#0" expanded="true" />
+                <element signature="e#2270#2271#0" expanded="true" />
+                <element signature="e#2307#2308#0" expanded="true" />
+                <element signature="e#2350#2351#0" expanded="true" />
+                <element signature="e#2390#2391#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -135,8 +136,8 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/PlaylistLoader.java" />
         <option value="$PROJECT_DIR$/src/main/resources/logback.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Lavamark.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Player.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Lavamark.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/AudioConsumer.java" />
       </list>
     </option>
@@ -767,12 +768,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1497451061566</updated>
-      <workItem from="1497451063047" duration="7507000" />
+      <workItem from="1497451063047" duration="8460000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7507000" />
+    <option name="totallyTimeSpent" value="8460000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -796,7 +797,7 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39328277" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.6251354" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -865,6 +866,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="15" column="14" lean-forward="true" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/PlaylistLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="866">
@@ -875,38 +886,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/Lavamark.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="55" column="54" lean-forward="false" selection-start-line="55" selection-start-column="54" selection-end-line="55" selection-end-column="54" />
+        <state relative-caret-position="373">
+          <caret line="45" column="22" lean-forward="false" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/frederikam/lavamark/AudioConsumer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="45" column="14" lean-forward="false" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
+        <state relative-caret-position="187">
+          <caret line="41" column="27" lean-forward="false" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#691#692#0" expanded="true" />
-            <element signature="e#729#730#0" expanded="true" />
-            <element signature="e#2551#2552#0" expanded="true" />
-            <element signature="e#2588#2589#0" expanded="true" />
-            <element signature="e#2622#2623#0" expanded="true" />
-            <element signature="e#2659#2660#0" expanded="true" />
-            <element signature="e#2702#2703#0" expanded="true" />
-            <element signature="e#2742#2743#0" expanded="true" />
+            <element signature="e#623#624#0" expanded="true" />
+            <element signature="e#659#660#0" expanded="true" />
+            <element signature="e#2199#2200#0" expanded="true" />
+            <element signature="e#2236#2237#0" expanded="true" />
+            <element signature="e#2270#2271#0" expanded="true" />
+            <element signature="e#2307#2308#0" expanded="true" />
+            <element signature="e#2350#2351#0" expanded="true" />
+            <element signature="e#2390#2391#0" expanded="true" />
           </folding>
         </state>
       </provider>
