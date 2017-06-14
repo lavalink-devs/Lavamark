@@ -9,3 +9,4 @@ out
 gen
 /target/
 /logs/
+/dependency-reduced-pom.xml
