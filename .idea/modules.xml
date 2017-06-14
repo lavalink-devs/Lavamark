@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Lavamark.iml" filepath="$PROJECT_DIR$/Lavamark.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lavamark.iml" filepath="$PROJECT_DIR$/lavamark.iml" />
     </modules>
   </component>
 </project>
