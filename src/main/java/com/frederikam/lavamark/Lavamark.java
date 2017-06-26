@@ -41,6 +41,7 @@ public class Lavamark {
 
     static final AudioPlayerManager PLAYER_MANAGER = new DefaultAudioPlayerManager();
     private static final String DEFAULT_PLAYLIST = "https://www.youtube.com/watch?v=7v154aLVo70&list=LLqqLoSLryroL7b7TAL8gfhQ&index=22";
+    private static final String DEFAULT_OPUS = "https://www.youtube.com/watch?v=M_36UBLkni8";
     private static final long INTERVAL = 2 * 1000;
     private static final long STEP_SIZE = 20;
     private static final Object WAITER = new Object();
@@ -57,7 +58,15 @@ public class Lavamark {
         AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER);
 
         log.info("Loading AudioTracks");
-        tracks = new PlaylistLoader().loadTracksSync(DEFAULT_PLAYLIST);
+
+        String identifier;
+        if (args.length >= 1 && args[0].equals("opus")) {
+            identifier = DEFAULT_OPUS;
+        } else {
+            identifier = DEFAULT_PLAYLIST;
+        }
+
+        tracks = new PlaylistLoader().loadTracksSync(identifier);
         log.info(tracks.size() + " tracks loaded. Beginning benchmark...");
 
         try {
