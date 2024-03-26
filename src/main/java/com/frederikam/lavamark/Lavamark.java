@@ -47,6 +47,7 @@ public class Lavamark {
 
     static final AudioPlayerManager PLAYER_MANAGER = new DefaultAudioPlayerManager();
     private static final String DEFAULT_OPUS = "https://www.youtube.com/watch?v=M_36UBLkni8";
+
     private static final long INTERVAL = 2 * 1000;
     private static final long STEP_SIZE = 20;
     private static final Object WAITER = new Object();
@@ -62,10 +63,14 @@ public class Lavamark {
         PLAYER_MANAGER.getConfiguration().setResamplingQuality(AudioConfiguration.ResamplingQuality.LOW);
         AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER);
 
+        String jarPath = Lavamark.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String jarName = jarPath.substring(jarPath.lastIndexOf("/") + 1);
+
         Options options = new Options()
             .addOption("b", "block", true, "The IPv6 block to use for rotation (YouTube only). This must be specified as CIDR notation.")
             .addOption("s", "step", true, "The number of players to spawn after a fixed interval. Be careful when using large values.")
             .addOption("i", "identifier", true, "The audio identifier to use for the test. Must be a URL pointing to a supported audio source.")
+            .addOption("t", "transcode", false, "Simulate a load by forcing transcoding.")
             .addOption("h", "help", false, "Displays the supported command line arguments.");
 
         CommandLineParser parser = new DefaultParser();
@@ -76,12 +81,12 @@ public class Lavamark {
         try {
             parsed = parser.parse(options, args);
         } catch (ParseException parseException) {
-            formatter.printHelp("", options);
+            formatter.printHelp("java -jar " + jarName, options);
             return;
         }
 
         if (parsed.hasOption("help")) {
-            formatter.printHelp("", options);
+            formatter.printHelp("java -jar " + jarName, options);
             return;
         }
 
@@ -105,12 +110,12 @@ public class Lavamark {
         long stepSize = STEP_SIZE;
 
         if (parsed.hasOption("step")) {
-            stepSize = Long.getLong(parsed.getOptionValue("step"));
+            stepSize = Math.max(1, Long.parseLong(parsed.getOptionValue("step")));
             log.info("Step set to {} players every {} milliseconds.", stepSize, INTERVAL);
         }
 
         try {
-            doLoop(stepSize);
+            doLoop(stepSize, parsed.hasOption("transcode"));
         } catch (Exception e) {
             log.error("Benchmark ended due to exception!");
             throw new RuntimeException(e);
@@ -119,10 +124,10 @@ public class Lavamark {
         System.exit(0);
     }
 
-    private static void doLoop(long stepSize) throws InterruptedException {
+    private static void doLoop(long stepSize, boolean transcode) throws InterruptedException {
         //noinspection InfiniteLoopStatement
         while (true) {
-            spawnPlayers(stepSize);
+            spawnPlayers(stepSize, transcode);
 
             AudioConsumer.Results results = AudioConsumer.getResults();
             log.info("Players: " + players.size() + ", Null frames: " + results.getLossPercentString());
@@ -138,9 +143,9 @@ public class Lavamark {
         }
     }
 
-    private static void spawnPlayers(long stepSize) {
+    private static void spawnPlayers(long stepSize, boolean transcode) {
         for (int i = 0; i < stepSize; i++) {
-            players.add(new Player());
+            players.add(new Player(transcode));
         }
     }
 

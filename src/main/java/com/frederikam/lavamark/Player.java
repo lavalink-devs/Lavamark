@@ -13,9 +13,13 @@ public class Player extends AudioEventAdapter {
     private static final Logger log = LoggerFactory.getLogger(Player.class);
     private AudioPlayer player = Lavamark.PLAYER_MANAGER.createPlayer();
 
-    Player() {
+    Player(boolean transcode) {
         player.addListener(this);
         player.playTrack(Lavamark.getTrack());
+
+        if (transcode) {
+            player.setVolume(99);
+        }
 
         AudioConsumer consumer = new AudioConsumer(this);
         consumer.start();
