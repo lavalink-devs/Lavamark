@@ -63,7 +63,7 @@ public class Lavamark {
         AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER);
 
         Options options = new Options()
-            .addOption("b", "block", true, "The IPv6 block to use for rotation. This must be specified as CIDR notation.")
+            .addOption("b", "block", true, "The IPv6 block to use for rotation (YouTube only). This must be specified as CIDR notation.")
             .addOption("s", "step", true, "The number of players to spawn after a fixed interval. Be careful when using large values.")
             .addOption("i", "identifier", true, "The audio identifier to use for the test. Must be a URL pointing to a supported audio source.")
             .addOption("h", "help", false, "Displays the supported command line arguments.");
