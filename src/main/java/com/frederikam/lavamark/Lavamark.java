@@ -24,6 +24,7 @@
 
 package com.frederikam.lavamark;
 
+import com.sedmelluq.discord.lavaplayer.natives.ConnectorNativeLibLoader;
 import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -90,6 +91,12 @@ public class Lavamark {
             return;
         }
 
+        boolean transcode = parsed.hasOption("transcode");
+
+        if (transcode) {
+            ConnectorNativeLibLoader.loadConnectorLibrary();
+        }
+
         if (parsed.hasOption("block")) {
             String ipBlock = parsed.getOptionValue("block");
 
@@ -115,7 +122,7 @@ public class Lavamark {
         }
 
         try {
-            doLoop(stepSize, parsed.hasOption("transcode"));
+            doLoop(stepSize, transcode);
         } catch (Exception e) {
             log.error("Benchmark ended due to exception!");
             throw new RuntimeException(e);
