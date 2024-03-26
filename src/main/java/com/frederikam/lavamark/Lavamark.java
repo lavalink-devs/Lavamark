@@ -62,9 +62,6 @@ public class Lavamark {
         PLAYER_MANAGER.getConfiguration().setResamplingQuality(AudioConfiguration.ResamplingQuality.LOW);
         AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER);
 
-        String jarPath = Lavamark.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        String jarName = jarPath.substring(jarPath.lastIndexOf("/") + 1);
-
         Options options = new Options()
             .addOption("b", "block", true, "The IPv6 block to use for rotation. This must be specified as CIDR notation.")
             .addOption("s", "step", true, "The number of players to spawn after a fixed interval. Be careful when using large values.")
@@ -79,12 +76,12 @@ public class Lavamark {
         try {
             parsed = parser.parse(options, args);
         } catch (ParseException parseException) {
-            formatter.printHelp("java -jar " + jarName, options);
+            formatter.printHelp("", options);
             return;
         }
 
         if (parsed.hasOption("help")) {
-            formatter.printHelp("java -jar " + jarName, options);
+            formatter.printHelp("", options);
             return;
         }
 
