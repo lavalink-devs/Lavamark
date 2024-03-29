@@ -10,6 +10,7 @@ java -jar lavamark-1.0.jar
 
 ## Lavamark Options
 You can specify any of the following options as a command-line argument when launching Lavamark.
+Application options are specified after the JAR name.
 
 | Option           | Description                                                                                |
 |------------------|--------------------------------------------------------------------------------------------|
