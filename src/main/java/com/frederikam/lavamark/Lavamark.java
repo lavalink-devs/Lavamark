@@ -68,11 +68,11 @@ public class Lavamark {
         String jarName = jarPath.substring(jarPath.lastIndexOf("/") + 1);
 
         Options options = new Options()
-            .addOption("b", "block", true, "The IPv6 block to use for rotation (YouTube only). This must be specified as CIDR notation.")
-            .addOption("s", "step", true, "The number of players to spawn after a fixed interval. Be careful when using large values.")
-            .addOption("i", "identifier", true, "The audio identifier to use for the test. Must be a URL pointing to a supported audio source.")
+            .addOption("b", "block", true, "The IPv6 block to use for rotation, specified as CIDR notation. Only applies to YouTube currently.")
+            .addOption("s", "step", true, "The number of players to spawn after two seconds. Be careful when using large values.")
+            .addOption("i", "identifier", true, "The identifier or URL of the track/playlist to use for the benchmark.")
             .addOption("t", "transcode", false, "Simulate a load by forcing transcoding.")
-            .addOption("h", "help", false, "Displays the supported command line arguments.");
+            .addOption("h", "help", false, "Displays Lavamark's available options.");
 
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
