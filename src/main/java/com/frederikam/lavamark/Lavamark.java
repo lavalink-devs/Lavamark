@@ -29,11 +29,11 @@ import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.lava.extensions.youtuberotator.YoutubeIpRotatorSetup;
 import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRoutePlanner;
 import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
+import dev.lavalink.youtube.YoutubeAudioSourceManager;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,13 +56,14 @@ public class Lavamark {
     private static List<AudioTrack> tracks;
     private static CopyOnWriteArrayList<Player> players = new CopyOnWriteArrayList<>();
 
-
+    @SuppressWarnings("deprecation")
     public static void main(String[] args) {
         /* Set up the player manager */
         PLAYER_MANAGER.enableGcMonitoring();
         PLAYER_MANAGER.setItemLoaderThreadPoolSize(100);
         PLAYER_MANAGER.getConfiguration().setResamplingQuality(AudioConfiguration.ResamplingQuality.LOW);
-        AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER);
+        PLAYER_MANAGER.registerSourceManager(new YoutubeAudioSourceManager());
+        AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER, com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.class);
 
         String jarPath = Lavamark.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String jarName = jarPath.substring(jarPath.lastIndexOf("/") + 1);
@@ -102,7 +103,10 @@ public class Lavamark {
 
             YoutubeAudioSourceManager ytasm = PLAYER_MANAGER.source(YoutubeAudioSourceManager.class);
             RotatingNanoIpRoutePlanner planner = new RotatingNanoIpRoutePlanner(Collections.singletonList(new Ipv6Block(ipBlock)));
-            new YoutubeIpRotatorSetup(planner).forSource(ytasm).setup();
+
+            new YoutubeIpRotatorSetup(planner).forConfiguration(ytasm.getHttpInterfaceManager(), false)
+                .withMainDelegateFilter(null)
+                .setup();
 
             log.info("IP rotation configured.");
         }
