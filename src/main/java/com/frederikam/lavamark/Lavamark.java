@@ -24,14 +24,21 @@
 
 package com.frederikam.lavamark;
 
+import com.sedmelluq.discord.lavaplayer.natives.ConnectorNativeLibLoader;
 import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.lava.extensions.youtuberotator.YoutubeIpRotatorSetup;
+import com.sedmelluq.lava.extensions.youtuberotator.planner.RotatingNanoIpRoutePlanner;
+import com.sedmelluq.lava.extensions.youtuberotator.tools.ip.Ipv6Block;
+import dev.lavalink.youtube.YoutubeAudioSourceManager;
+import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -40,8 +47,8 @@ public class Lavamark {
     private static final Logger log = LoggerFactory.getLogger(Lavamark.class);
 
     static final AudioPlayerManager PLAYER_MANAGER = new DefaultAudioPlayerManager();
-    private static final String DEFAULT_PLAYLIST = "https://www.youtube.com/watch?v=7v154aLVo70&list=LLqqLoSLryroL7b7TAL8gfhQ&index=22";
     private static final String DEFAULT_OPUS = "https://www.youtube.com/watch?v=M_36UBLkni8";
+
     private static final long INTERVAL = 2 * 1000;
     private static final long STEP_SIZE = 20;
     private static final Object WAITER = new Object();
@@ -49,28 +56,77 @@ public class Lavamark {
     private static List<AudioTrack> tracks;
     private static CopyOnWriteArrayList<Player> players = new CopyOnWriteArrayList<>();
 
-
+    @SuppressWarnings("deprecation")
     public static void main(String[] args) {
         /* Set up the player manager */
         PLAYER_MANAGER.enableGcMonitoring();
         PLAYER_MANAGER.setItemLoaderThreadPoolSize(100);
         PLAYER_MANAGER.getConfiguration().setResamplingQuality(AudioConfiguration.ResamplingQuality.LOW);
-        AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER);
+        PLAYER_MANAGER.registerSourceManager(new YoutubeAudioSourceManager());
+        AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER, com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager.class);
 
-        log.info("Loading AudioTracks");
+        String jarPath = Lavamark.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String jarName = jarPath.substring(jarPath.lastIndexOf("/") + 1);
 
-        String identifier;
-        if (args.length >= 1 && args[0].equals("opus")) {
-            identifier = DEFAULT_OPUS;
-        } else {
-            identifier = DEFAULT_PLAYLIST;
+        Options options = new Options()
+            .addOption("b", "block", true, "The IPv6 block to use for rotation, specified as CIDR notation. Only applies to YouTube currently.")
+            .addOption("s", "step", true, "The number of players to spawn after two seconds. Be careful when using large values.")
+            .addOption("i", "identifier", true, "The identifier or URL of the track/playlist to use for the benchmark.")
+            .addOption("t", "transcode", false, "Simulate a load by forcing transcoding.")
+            .addOption("h", "help", false, "Displays Lavamark's available options.");
+
+        CommandLineParser parser = new DefaultParser();
+        HelpFormatter formatter = new HelpFormatter();
+
+        CommandLine parsed;
+
+        try {
+            parsed = parser.parse(options, args);
+        } catch (ParseException parseException) {
+            formatter.printHelp("java -jar " + jarName, options);
+            return;
         }
+
+        if (parsed.hasOption("help")) {
+            formatter.printHelp("java -jar " + jarName, options);
+            return;
+        }
+
+        boolean transcode = parsed.hasOption("transcode");
+
+        if (transcode) {
+            ConnectorNativeLibLoader.loadConnectorLibrary();
+        }
+
+        if (parsed.hasOption("block")) {
+            String ipBlock = parsed.getOptionValue("block");
+
+            YoutubeAudioSourceManager ytasm = PLAYER_MANAGER.source(YoutubeAudioSourceManager.class);
+            RotatingNanoIpRoutePlanner planner = new RotatingNanoIpRoutePlanner(Collections.singletonList(new Ipv6Block(ipBlock)));
+
+            new YoutubeIpRotatorSetup(planner).forConfiguration(ytasm.getHttpInterfaceManager(), false)
+                .withMainDelegateFilter(null)
+                .setup();
+
+            log.info("IP rotation configured.");
+        }
+
+        String identifier = parsed.getOptionValue("identifier", DEFAULT_OPUS);
+
+        log.info("Loading AudioTracks from identifier {}", identifier);
 
         tracks = new PlaylistLoader().loadTracksSync(identifier);
         log.info(tracks.size() + " tracks loaded. Beginning benchmark...");
 
+        long stepSize = STEP_SIZE;
+
+        if (parsed.hasOption("step")) {
+            stepSize = Math.max(1, Long.parseLong(parsed.getOptionValue("step")));
+            log.info("Step set to {} players every {} milliseconds.", stepSize, INTERVAL);
+        }
+
         try {
-            doLoop();
+            doLoop(stepSize, transcode);
         } catch (Exception e) {
             log.error("Benchmark ended due to exception!");
             throw new RuntimeException(e);
@@ -79,10 +135,10 @@ public class Lavamark {
         System.exit(0);
     }
 
-    private static void doLoop() throws InterruptedException {
+    private static void doLoop(long stepSize, boolean transcode) throws InterruptedException {
         //noinspection InfiniteLoopStatement
         while (true) {
-            spawnPlayers();
+            spawnPlayers(stepSize, transcode);
 
             AudioConsumer.Results results = AudioConsumer.getResults();
             log.info("Players: " + players.size() + ", Null frames: " + results.getLossPercentString());
@@ -98,9 +154,9 @@ public class Lavamark {
         }
     }
 
-    private static void spawnPlayers() {
-        for (int i = 0; i < STEP_SIZE; i++) {
-            players.add(new Player());
+    private static void spawnPlayers(long stepSize, boolean transcode) {
+        for (int i = 0; i < stepSize; i++) {
+            players.add(new Player(transcode));
         }
     }
 

@@ -50,7 +50,6 @@ public class AudioConsumer extends Thread {
         long start = System.currentTimeMillis();
         long i = 0;
 
-        //noinspection InfiniteLoopStatement
         while (running) {
 
             if (player.canProvide()) {
